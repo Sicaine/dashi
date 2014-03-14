@@ -9,25 +9,15 @@ angular.module('Library', []).
             restrict: 'A',
 
             link: function(scope, element, $attrs) {
-                if(angular.isString($attrs.widgetId)){
-                    scope.startX = scope.offsetX = $attrs.offsetX;
-                    scope.startY = scope.offsetY = $attrs.offsetY;
+                scope.startX = scope.offsetX = $attrs.offsetX;
+                scope.startY = scope.offsetY = $attrs.offsetY;
 
+                if(angular.isString($attrs.widgetId)){
                     scope.widgetId = $attrs.widgetId;
                     element.addClass('saved');
                 } else {
-                    scope.startX = scope.offsetX = event.offsetX;
-                    scope.startY = scope.offsetY = event.offsetY;
-
-                    // if user doesn't click on canvas, recalculate offset
-                    var canvasElement = angular.element('#canvas');
-
-                    if(canvasElement[0] != element[0] && false){
-                        scope.offsetX = scope.offsetX - (element[0].getBoundingClientRect().top - canvasElement[0].getBoundingClientRect().top);
-                        scope.offsetY = scope.offsetY - (element[0].getBoundingClientRect().left - canvasElement[0].getBoundingClientRect().left);
-                    }
-
                     element.addClass('widget');
+
                     element.css('top', scope.offsetY);
                     element.css('left', scope.offsetX);
                     element.css('width', 300);
@@ -58,6 +48,7 @@ angular.module('Library', []).
                         return;
                     }
 
+                    console.log('start dragging');
                     // Prevent default dragging of selected content
                     event.preventDefault();
                     scope.startX = event.pageX - scope.offsetX;
@@ -76,6 +67,8 @@ angular.module('Library', []).
                         left:  scope.offsetX + 'px'
                     });
 
+                    console.log('dragging');
+
                     event.stopPropagation();
                 }
 
@@ -83,6 +76,7 @@ angular.module('Library', []).
                     $document.unbind('mousemove', mousemove);
                     $document.unbind('mouseup', mouseup);
 
+                    console.log('end dragging');
                     event.stopPropagation();
                 }
 

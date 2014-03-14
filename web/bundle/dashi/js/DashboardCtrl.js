@@ -28,7 +28,7 @@ angular.module('Dashboard', []).controller('DashboardCtrl', [
             }
 
 
-            var newWidgetElement = $compile('<div widget></div>')($scope)
+            var newWidgetElement = $compile('<div widget offset-x="'+event.pageX+'" offset-y="'+event.pageY+'"></div>')($scope)
             canvas.append(newWidgetElement);
 
             $scope.$apply();
